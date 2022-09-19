@@ -1,4 +1,4 @@
-package com.example.z_callapp;
+package com.example.z_callapp.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.example.z_callapp.Adapter.UsersAdapter;
 import com.example.z_callapp.Model.Status;
 import com.example.z_callapp.Model.User;
 import com.example.z_callapp.Model.UserStatus;
+import com.example.z_callapp.R;
 import com.example.z_callapp.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -147,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(intent, 75);
                         break;
+                    case R.id.calls:
+                        Toast.makeText(MainActivity.this, "Đang cập nhật", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -230,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.settings:
-                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                showPopup();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -240,5 +244,26 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void showPopup() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+        alert.setMessage("Bạn có chắc?")
+                .setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener()                 {
+
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        logout();
+
+                    }
+                }).setNegativeButton("Hủy", null);
+
+        AlertDialog alert1 = alert.create();
+        alert1.show();
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+
     }
 }

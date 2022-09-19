@@ -1,4 +1,4 @@
-package com.example.z_callapp;
+package com.example.z_callapp.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +7,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -17,8 +16,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -42,7 +39,7 @@ public class OTPActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         dialog = new ProgressDialog(this);
-        dialog.setMessage("Sending OTP...");
+        dialog.setMessage("Đang gửi mã OTP");
         dialog.setCancelable(false);
         dialog.show();
 
@@ -54,7 +51,7 @@ public class OTPActivity extends AppCompatActivity {
 
         String phoneNumber = getIntent().getStringExtra("phoneNumber");
 
-        binding.phoneLb1.setText("Verify " + phoneNumber);
+        binding.phoneLb1.setText("Xác thực  " + phoneNumber);
 
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(auth)
                 .setPhoneNumber(phoneNumber)
@@ -98,7 +95,7 @@ public class OTPActivity extends AppCompatActivity {
                             startActivity(intent);
                             finishAffinity();
                         } else {
-                            Toast.makeText(OTPActivity.this, "Failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(OTPActivity.this, "Có lỗi gì đó đã xảy ra:((.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

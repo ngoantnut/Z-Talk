@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.z_callapp.ChatActivity;
-import com.example.z_callapp.GroupChatActivity;
 import com.example.z_callapp.Model.Message;
 import com.example.z_callapp.R;
 import com.example.z_callapp.databinding.ItemReceiveBinding;

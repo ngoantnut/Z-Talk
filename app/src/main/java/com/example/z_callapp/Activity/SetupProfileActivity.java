@@ -1,4 +1,4 @@
-package com.example.z_callapp;
+package com.example.z_callapp.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +39,7 @@ public class SetupProfileActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         dialog = new ProgressDialog(this);
-        dialog.setMessage("Updating profile...");
+        dialog.setMessage("Đang cập nhật dữ liệu");
         dialog.setCancelable(false);
 
         database = FirebaseDatabase.getInstance();
@@ -64,7 +64,7 @@ public class SetupProfileActivity extends AppCompatActivity {
                 String name = binding.nameBox.getText().toString();
 
                 if(name.isEmpty()) {
-                    binding.nameBox.setError("Please type a name");
+                    binding.nameBox.setError("Vui lòng nhập tên");
                     return;
                 }
 

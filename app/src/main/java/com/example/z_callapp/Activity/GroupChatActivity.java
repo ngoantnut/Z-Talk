@@ -1,4 +1,4 @@
-package com.example.z_callapp;
+package com.example.z_callapp.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,11 +57,11 @@ public class GroupChatActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
 
         dialog = new ProgressDialog(this);
-        dialog.setMessage("Uploading image...");
+        dialog.setMessage("Đang tải ảnh lên");
         dialog.setCancelable(false);
 
         dialog = new ProgressDialog(this);
-        dialog.setMessage("Uploading image...");
+        dialog.setMessage("Đang tải ảnh lên");
         dialog.setCancelable(false);
 
         messages = new ArrayList<>();

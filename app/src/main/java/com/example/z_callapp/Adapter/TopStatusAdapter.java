@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.z_callapp.MainActivity;
+import com.example.z_callapp.Activity.MainActivity;
 import com.example.z_callapp.Model.Status;
 import com.example.z_callapp.Model.UserStatus;
 import com.example.z_callapp.R;

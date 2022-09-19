@@ -1,4 +1,4 @@
-package com.example.z_callapp;
+package com.example.z_callapp.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +18,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.example.z_callapp.Adapter.MessageAdapter;
 import com.example.z_callapp.Model.Message;
+import com.example.z_callapp.R;
 import com.example.z_callapp.databinding.ActivityChatBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,51 +32,56 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Random;
 
 public class ChatActivity extends AppCompatActivity {
     ActivityChatBinding binding;
+
     MessageAdapter adapter;
     ArrayList<Message> messages;
+
     String senderRoom, receiverRoom;
+
     FirebaseDatabase database;
     FirebaseStorage storage;
+
     ProgressDialog dialog;
     String senderUid;
     String receiverUid;
     String token;
     String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("Uploading image...");
-        dialog.setCancelable(false);
 
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
+
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Đang tải ảnh lên ");
+        dialog.setCancelable(false);
+
         messages = new ArrayList<>();
-        adapter = new MessageAdapter(this, messages,  senderRoom, receiverRoom);
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.recyclerView.setAdapter(adapter);
 
-        name = getIntent().getStringExtra("name");
+        String name = getIntent().getStringExtra("name");
         String profile = getIntent().getStringExtra("image");
-        receiverUid = getIntent().getStringExtra("uid");
+        String token = getIntent().getStringExtra("token");
+
+        //Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
 
         binding.name.setText(name);
         Glide.with(ChatActivity.this).load(profile)
-                .placeholder(R.drawable.placeholer)
+                .placeholder(R.drawable.avatar)
                 .into(binding.profile);
 
         binding.imageView2.setOnClickListener(new View.OnClickListener() {
@@ -84,23 +90,23 @@ public class ChatActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        receiverUid = getIntent().getStringExtra("uid");
         senderUid = FirebaseAuth.getInstance().getUid();
 
-        senderRoom = senderUid + receiverUid;
-        receiverRoom = receiverUid + senderUid;
-
-
-        //push trạng thái on/off
         database.getReference().child("presence").child(receiverUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+                if(snapshot.exists()) {
                     String status = snapshot.getValue(String.class);
-                    if(!status.isEmpty()){
-                        binding.status.setText(status);
-                        binding.status.setVisibility(View.VISIBLE);
+                    if(!status.isEmpty()) {
+                        if(status.equals("Offline")) {
+                            binding.status.setVisibility(View.GONE);
+                        } else {
+                            binding.status.setText(status);
+                            binding.status.setVisibility(View.VISIBLE);
+                        }
                     }
-
                 }
             }
 
@@ -109,27 +115,35 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
+        senderRoom = senderUid + receiverUid;
+        receiverRoom = receiverUid + senderUid;
+
+        adapter = new MessageAdapter(this, messages, senderRoom, receiverRoom);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
+
         database.getReference().child("chats")
-                        .child(senderRoom)
-                        .child("messages")
-                        .addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                messages.clear();
-                                                for(DataSnapshot snapshot1: snapshot.getChildren()){
-                                                    Message message = snapshot1.getValue(Message.class);
-                                                    message.setMessageId(snapshot1.getKey());
-                                                    messages.add(message);
-                                                }
-                                                adapter.notifyDataSetChanged();
-                                            }
+                .child(senderRoom)
+                .child("messages")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        messages.clear();
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            Message message = snapshot1.getValue(Message.class);
+                            message.setMessageId(snapshot1.getKey());
+                            messages.add(message);
+                        }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
+                        adapter.notifyDataSetChanged();
+                    }
 
-                                            }
-                                        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
+                    }
+                });
 
         binding.sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +153,8 @@ public class ChatActivity extends AppCompatActivity {
                 Date date = new Date();
                 Message message = new Message(messageTxt, senderUid, date.getTime());
                 binding.messageBox.setText("");
-                String randomkey = database.getReference().push().getKey();
+
+                String randomKey = database.getReference().push().getKey();
 
                 HashMap<String, Object> lastMsgObj = new HashMap<>();
                 lastMsgObj.put("lastMsg", message.getMessage());
@@ -151,23 +166,23 @@ public class ChatActivity extends AppCompatActivity {
                 database.getReference().child("chats")
                         .child(senderRoom)
                         .child("messages")
-                        .child(randomkey)
+                        .child(randomKey)
                         .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(Void unused) {
+                            public void onSuccess(Void aVoid) {
                                 database.getReference().child("chats")
                                         .child(receiverRoom)
                                         .child("messages")
-                                        .child(randomkey)
+                                        .child(randomKey)
                                         .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
-                                            public void onSuccess(Void unused) {
-
+                                            public void onSuccess(Void aVoid) {
+                                               // sendNotification(name, message.getMessage(), token);
                                             }
                                         });
-
                             }
                         });
+
             }
         });
 
@@ -181,7 +196,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        //Kiểm tra trạng thái xem đối phương đang nhập không
         final Handler handler = new Handler();
         binding.messageBox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -198,7 +212,7 @@ public class ChatActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 database.getReference().child("presence").child(senderUid).setValue("typing...");
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(userStoppedTyping, 1000);
+                handler.postDelayed(userStoppedTyping,1000);
             }
 
             Runnable userStoppedTyping = new Runnable() {
@@ -208,20 +222,24 @@ public class ChatActivity extends AppCompatActivity {
                 }
             };
         });
+
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        /*getSupportActionBar().setTitle(name);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
-
+//        getSupportActionBar().setTitle(name);
+//
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==25){
-            if(data!= null){
-                if(data.getData() != null){
+        if(requestCode == 25) {
+            if(data != null) {
+                if(data.getData() != null) {
                     Uri selectedImage = data.getData();
                     Calendar calendar = Calendar.getInstance();
                     StorageReference reference = storage.getReference().child("chats").child(calendar.getTimeInMillis() + "");
@@ -281,8 +299,8 @@ public class ChatActivity extends AppCompatActivity {
                     });
                 }
             }
-                }
-            }
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -292,11 +310,17 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        database.getReference().child("presence").child(currentId).setValue("Offline");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.chat_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {
