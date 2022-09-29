@@ -11,15 +11,27 @@
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable-v24/ic_search.xml" value="0.226" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable-v24/ic_send.xml" value="0.226" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable-v24/ic_status.xml" value="0.226" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable-v24/ic_video.xml" value="0.226" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable-v24/sent_drawable.xml" value="0.226" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable/button_style_rounded.xml" value="0.226" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable/button_style_rounded_2.xml" value="0.226" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable/ic_backgroud_red.xml" value="0.226" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable/ic_left_arrow.xml" value="0.226" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable/receive_drawable.xml" value="0.12" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable/receive_item.xml" value="0.226" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable/send_drawable.xml" value="0.226" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/drawable/textbox.xml" value="0.226" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_chat.xml" value="0.4" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_group_chat.xml" value="0.25" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_meeting.xml" value="0.25" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_on_meeting.xml" value="0.25" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_otpactivity.xml" value="0.25" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_phone_number.xml" value="0.25" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_setup_profile.xml" value="0.2359375" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_video_call_incoming.xml" value="0.25" />
+        <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/activity_video_call_out_going.xml" value="0.2359375" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/demo_layout.xml" value="0.25" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/demo_status.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/84868/AndroidStudioProjects/ZCallApp/app/src/main/res/layout/item_receive.xml" value="0.24895833333333334" />

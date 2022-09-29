@@ -11,7 +11,7 @@ android {
     }
     defaultConfig {
         applicationId "com.example.z_callapp"
-        minSdk 21
+        minSdk 23
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -55,6 +55,8 @@ dependencies {
     implementation 'com.github.3llomi:CircularStatusView:V1.0.2'
     implementation 'com.github.OMARIHAMZA:StoryView:1.0.2-alpha'
     implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
+    implementation ('org.jitsi.react:jitsi-meet-sdk:6.0.0') { transitive = true }
+
 
 }
 apply plugin: 'com.google.gms.google-services'

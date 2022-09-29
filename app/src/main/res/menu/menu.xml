@@ -10,7 +10,15 @@
         android:icon="@drawable/ic_status"
         android:title="Status" />
     <item
+        android:id="@+id/newsfeed"
+        android:icon="@drawable/ic_dashboard"
+        android:title="Dashboard" />
+    <item
         android:id="@+id/calls"
-        android:icon="@drawable/ic_call"
+        android:icon="@drawable/ic_account"
         android:title="Profile" />
+    <item
+        android:id="@+id/meeting"
+        android:icon="@drawable/ic_baseline_group_24"
+        android:title="Meeting" />
 </menu>

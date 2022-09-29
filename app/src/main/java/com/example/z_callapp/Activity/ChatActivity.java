@@ -10,10 +10,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.z_callapp.Adapter.MessageAdapter;
@@ -123,6 +126,14 @@ public class ChatActivity extends AppCompatActivity {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
 
+        binding.camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivity(intent);
+            }
+        });
         database.getReference().child("chats")
                 .child(senderRoom)
                 .child("messages")
@@ -224,11 +235,8 @@ public class ChatActivity extends AppCompatActivity {
         });
 
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-//        getSupportActionBar().setTitle(name);
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
 
@@ -317,14 +325,35 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.call_chat:
+                Toast.makeText(ChatActivity.this, "Calling", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ChatActivity.this, VideoCallOutGoingActivity.class);
+                intent.putExtra("uid", receiverUid);
+                intent.putExtra("t", "v");
+                startActivity(intent);
+                break;
+            case R.id.settings:
+                Toast.makeText(ChatActivity.this, "Calling", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.chat_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();
+
         return super.onSupportNavigateUp();
     }
+
+
 }

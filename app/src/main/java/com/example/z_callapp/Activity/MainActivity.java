@@ -150,7 +150,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivityForResult(intent, 75);
                         break;
                     case R.id.calls:
-                        Toast.makeText(MainActivity.this, "Đang cập nhật", Toast.LENGTH_SHORT).show();
+                        startActivity( new Intent(MainActivity.this, ProfileActivity.class));
+                        break;
+                    case R.id.meeting:
+                        startActivity(new Intent(MainActivity.this, MeetingActivity.class));
+                        break;
                 }
                 return false;
             }
@@ -236,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.settings:
                 showPopup();
                 break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -264,6 +269,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void logout() {
         FirebaseAuth.getInstance().signOut();
-
+        finish();
     }
+
+
 }
