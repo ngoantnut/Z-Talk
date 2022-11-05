@@ -3,6 +3,7 @@ package com.example.z_callapp.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -18,16 +19,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FcmBroadcastProcessor;
 
+
 public class VideoCallOutGoingActivity extends AppCompatActivity {
     ActivityVideoCallOutGoingBinding binding;
     String senderUid;
     String receiverUid;
     FirebaseAuth auth;
 
-    String receiverName, phoneNumber;
+    String receiverName, phoneNumber, receiverPhoneNumber;
     DatabaseReference reference, cancelRef;
     FirebaseDatabase database;
     VcModel model;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class VideoCallOutGoingActivity extends AppCompatActivity {
         });
 
     }
-}
+    }
+
 
 

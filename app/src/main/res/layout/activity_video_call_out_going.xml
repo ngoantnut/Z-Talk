@@ -31,9 +31,9 @@
 
     <ImageView
         android:id="@+id/call_out_image"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:src="@drawable/ic_camera"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_baseline_video_call_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

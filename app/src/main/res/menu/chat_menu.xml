@@ -8,8 +8,9 @@
         android:id="@+id/call_chat"
         app:showAsAction="always" />
     <item
+        android:id="@+id/calling"
         android:icon="@drawable/ic_call"
-        android:title="Audio Call"
+        android:title="Call"
         app:showAsAction="always" />
     <item android:title="Thông tin" />
     <item android:title="Khóa" />

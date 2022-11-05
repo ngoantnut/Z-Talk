@@ -39,6 +39,13 @@ public class MeetingActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+        binding.joinRandombtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
 

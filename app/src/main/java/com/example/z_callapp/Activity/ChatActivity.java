@@ -3,10 +3,13 @@ package com.example.z_callapp.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,11 +32,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,10 +58,12 @@ public class ChatActivity extends AppCompatActivity {
     FirebaseDatabase database;
     FirebaseStorage storage;
 
+    DatabaseReference reference;
     ProgressDialog dialog;
     String senderUid;
     String receiverUid;
-    String token;
+    String phoneNumber;
+    //String token;
     String name;
 
     @Override
@@ -126,6 +135,16 @@ public class ChatActivity extends AppCompatActivity {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
 
+        reference = database.getReference("users").child(receiverUid);
+
+
+        //Gọi điện trực tiếp :
+
+        if(ContextCompat.checkSelfPermission(ChatActivity.this, Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_DENIED)
+
+
+
+        //----------------------------------------//
         binding.camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,6 +260,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -335,8 +355,12 @@ public class ChatActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.settings:
-                Toast.makeText(ChatActivity.this, "Calling", Toast.LENGTH_SHORT).show();
+
                 break;
+
+            case R.id.calling:
+                Toast.makeText(ChatActivity.this, "Đang gọi tới số " , Toast.LENGTH_SHORT).show();
+
         }
         return super.onOptionsItemSelected(item);
     }

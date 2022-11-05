@@ -3,6 +3,7 @@ package com.example.z_callapp.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,8 +13,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.z_callapp.Adapter.TopStatusAdapter;
@@ -39,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -248,9 +252,49 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(!TextUtils.isEmpty(query.trim())){
+                    searchUser(query);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
+    private void searchUser(String query){
+        database.getReference().child("users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                users.clear();
+                for(DataSnapshot snapshot1: snapshot.getChildren()){
+                    User user= snapshot1.getValue(User.class);
 
+                    if(!user.getUid().equals(FirebaseAuth.getInstance().getUid()))
+                        if(user.getName().toLowerCase().contains(query.toLowerCase())||user.getPhoneNumber().contains(query.toLowerCase())){
+                            users.add(user);
+                        }
+                }
+                binding.recyclerView.hideShimmerAdapter();
+                usersAdapter.notifyDataSetChanged();
+                binding.recyclerView.setAdapter(usersAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     private void showPopup() {
         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
         alert.setMessage("Bạn có chắc?")
